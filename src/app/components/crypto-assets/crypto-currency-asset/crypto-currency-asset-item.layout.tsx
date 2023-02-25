@@ -1,7 +1,9 @@
 import { Flex, StackProps } from '@stacks/ui';
 import { forwardRefWithAs } from '@stacks/ui-core';
+import { truncateMiddle } from '@stacks/ui-utils';
 import { CryptoAssetSelectors } from '@tests/selectors/crypto-asset.selectors';
 
+import { CryptoCurrencies } from '@shared/models/currencies.model';
 import { Money } from '@shared/models/money.model';
 
 import { getFormattedBalance } from '@app/common/crypto-assets/stacks-crypto-asset.utils';
@@ -13,6 +15,7 @@ import { Tooltip } from '@app/components/tooltip';
 import { Caption, Text } from '@app/components/typography';
 
 import { SubBalance } from '../components/sub-balance';
+import { AssetItemCopyIcon } from './asset-copy-icon';
 
 interface CryptoCurrencyAssetItemLayoutProps extends StackProps {
   balance: Money;
@@ -21,10 +24,30 @@ interface CryptoCurrencyAssetItemLayoutProps extends StackProps {
   isPressable?: boolean;
   subBalance?: Money;
   title: string;
+  usdBalance?: string;
+  address?: string;
+  canCopy?: boolean;
+  isHovered?: boolean;
+  hasCopied?: boolean;
+  currency?: CryptoCurrencies;
 }
 export const CryptoCurrencyAssetItemLayout = forwardRefWithAs(
   (props: CryptoCurrencyAssetItemLayoutProps, ref) => {
-    const { balance, caption, icon, isPressable, subBalance, title, ...rest } = props;
+    const {
+      balance,
+      caption,
+      icon,
+      isPressable,
+      subBalance,
+      title,
+      currency,
+      canCopy,
+      usdBalance,
+      address = '',
+      isHovered = false,
+      hasCopied = false,
+      ...rest
+    } = props;
     const [component, bind] = usePressable(isPressable);
 
     const amount = balance.decimals
@@ -46,9 +69,9 @@ export const CryptoCurrencyAssetItemLayout = forwardRefWithAs(
         {...rest}
         {...bind}
       >
-        <Flag img={icon} align="middle" width="100%">
+        <Flag img={isHovered ? AssetItemCopyIcon(hasCopied) : icon} align="middle" width="100%">
           <SpaceBetween width="100%">
-            <Text>{title}</Text>
+            <Text>{isHovered ? truncateMiddle(address, 6) : title}</Text>
             <Tooltip
               label={formattedBalance.isAbbreviated ? balance.amount.toString() : undefined}
               placement="left-start"
@@ -60,6 +83,7 @@ export const CryptoCurrencyAssetItemLayout = forwardRefWithAs(
           </SpaceBetween>
           <SpaceBetween height="1.25rem" width="100%">
             <Caption>{caption}</Caption>
+            {Number(amount) > 0 && address ? <Caption>{usdBalance}</Caption> : null}
             {isUnanchored && subBalance ? <SubBalance balance={subBalance} /> : null}
           </SpaceBetween>
         </Flag>
