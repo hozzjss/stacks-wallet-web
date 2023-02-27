@@ -31,10 +31,18 @@ function getAmountModifiedFontSize(props: GetAmountModifiedFontSize) {
 
 interface AmountFieldProps {
   balance: Money;
+  switchableAmount?: JSX.Element;
   bottomInputOverlay?: JSX.Element;
+  autofocus?: boolean;
 }
-export function AmountField({ balance, bottomInputOverlay }: AmountFieldProps) {
+export function AmountField({
+  balance,
+  switchableAmount,
+  bottomInputOverlay,
+  autofocus = false,
+}: AmountFieldProps) {
   const [field, meta] = useField('amount');
+  // console.log('field', field);
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [previousTextLength, setPreviousTextLength] = useState(1);
 
@@ -92,12 +100,14 @@ export function AmountField({ balance, bottomInputOverlay }: AmountFieldProps) {
           px="none"
           textAlign="right"
           width={!field.value.length ? '1ch' : previousTextLength + 'ch'}
+          autoFocus={autofocus}
           {...field}
         />
         <Text fontSize={fontSize + 'px'} pl="tight">
           {symbol.toUpperCase()}
         </Text>
       </Flex>
+      {switchableAmount && switchableAmount}
       {meta.error && meta.touched && (
         <ErrorLabel data-testid={SendCryptoAssetSelectors.AmountFieldInputErrorLabel}>
           {meta.error}

@@ -19,6 +19,7 @@ import { PreviewButton } from '../../components/preview-button';
 import { RecipientField } from '../../components/recipient-field';
 import { SelectedAssetField } from '../../components/selected-asset-field';
 import { SendCryptoAssetFormLayout } from '../../components/send-crypto-asset-form.layout';
+import { SendFiatInput } from '../../components/send-fiat-input';
 import { SendMaxButton } from '../../components/send-max-button';
 import { useCalculateMaxBitcoinSpend } from '../../family/bitcoin/hooks/use-calculate-max-spend';
 import { useSendFormRouteState } from '../../hooks/use-send-form-route-state';
@@ -53,6 +54,8 @@ export function BtcSendForm() {
             <Form>
               <AmountField
                 balance={btcBalance.balance}
+                autofocus
+                switchableAmount={<SendFiatInput />}
                 bottomInputOverlay={
                   <SendMaxButton
                     balance={btcBalance.balance}
