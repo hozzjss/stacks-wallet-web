@@ -57,9 +57,7 @@ export function BtcSendForm() {
               <AmountField
                 balance={btcBalance.balance}
                 autofocus
-                switchableAmount={
-                  <SendFiatValue marketData={btcMarketData} assetSymbol={'BTC'} />
-                }
+                switchableAmount={<SendFiatValue marketData={btcMarketData} assetSymbol={'BTC'} />}
                 bottomInputOverlay={
                   <SendMaxButton
                     balance={btcBalance.balance}
