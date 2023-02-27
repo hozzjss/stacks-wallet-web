@@ -42,7 +42,6 @@ export function AmountField({
   autofocus = false,
 }: AmountFieldProps) {
   const [field, meta] = useField('amount');
-  // console.log('field', field);
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [previousTextLength, setPreviousTextLength] = useState(1);
 
@@ -86,28 +85,30 @@ export function AmountField({
       px="extra-loose"
       spacing={['base', meta.error ? 'base' : '48px']}
     >
-      <Flex alignItems="center" height="55px" justifyContent="center">
-        <Input
-          _focus={{ border: 'none' }}
-          border="none"
-          caretColor={color('accent')}
-          data-testid={SendCryptoAssetSelectors.AmountFieldInput}
-          fontSize={fontSize + 'px'}
-          height="100%"
-          id={amountInputId}
-          maxLength={maxLength}
-          placeholder="0"
-          px="none"
-          textAlign="right"
-          width={!field.value.length ? '1ch' : previousTextLength + 'ch'}
-          autoFocus={autofocus}
-          {...field}
-        />
-        <Text fontSize={fontSize + 'px'} pl="tight">
-          {symbol.toUpperCase()}
-        </Text>
+      <Flex alignItems="center" flexDirection="column">
+        <Flex alignItems="center" height="55px" justifyContent="center">
+          <Input
+            _focus={{ border: 'none' }}
+            border="none"
+            caretColor={color('accent')}
+            data-testid={SendCryptoAssetSelectors.AmountFieldInput}
+            fontSize={fontSize + 'px'}
+            height="100%"
+            id={amountInputId}
+            maxLength={maxLength}
+            placeholder="0"
+            px="none"
+            textAlign="right"
+            width={!field.value.length ? '1ch' : previousTextLength + 'ch'}
+            autoFocus={autofocus}
+            {...field}
+          />
+          <Text fontSize={fontSize + 'px'} pl="tight">
+            {symbol.toUpperCase()}
+          </Text>
+        </Flex>
+        {switchableAmount && switchableAmount}
       </Flex>
-      {switchableAmount && switchableAmount}
       {meta.error && meta.touched && (
         <ErrorLabel data-testid={SendCryptoAssetSelectors.AmountFieldInputErrorLabel}>
           {meta.error}

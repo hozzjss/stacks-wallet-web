@@ -9,6 +9,7 @@ import { RouteUrls } from '@shared/route-urls';
 import { BtcIcon } from '@app/components/icons/btc-icon';
 import { HighFeeDrawer } from '@app/features/high-fee-drawer/high-fee-drawer';
 import { useBitcoinAssetBalance } from '@app/query/bitcoin/address/address.hooks';
+import { useCryptoCurrencyMarketData } from '@app/query/common/market-data/market-data.hooks';
 import { useCurrentBtcNativeSegwitAccountAddressIndexZero } from '@app/store/accounts/blockchain/bitcoin/native-segwit-account.hooks';
 
 import { AmountField } from '../../components/amount-field';
@@ -19,7 +20,7 @@ import { PreviewButton } from '../../components/preview-button';
 import { RecipientField } from '../../components/recipient-field';
 import { SelectedAssetField } from '../../components/selected-asset-field';
 import { SendCryptoAssetFormLayout } from '../../components/send-crypto-asset-form.layout';
-import { SendFiatInput } from '../../components/send-fiat-input';
+import { SendFiatValue } from '../../components/send-fiat-value';
 import { SendMaxButton } from '../../components/send-max-button';
 import { useCalculateMaxBitcoinSpend } from '../../family/bitcoin/hooks/use-calculate-max-spend';
 import { useSendFormRouteState } from '../../hooks/use-send-form-route-state';
@@ -30,6 +31,7 @@ import { useBtcSendForm } from './use-btc-send-form';
 export function BtcSendForm() {
   const navigate = useNavigate();
   const routeState = useSendFormRouteState();
+  const btcMarketData = useCryptoCurrencyMarketData('BTC');
 
   const currentAccountBtcAddress = useCurrentBtcNativeSegwitAccountAddressIndexZero();
   const btcBalance = useBitcoinAssetBalance(currentAccountBtcAddress);
@@ -55,7 +57,9 @@ export function BtcSendForm() {
               <AmountField
                 balance={btcBalance.balance}
                 autofocus
-                switchableAmount={<SendFiatInput />}
+                switchableAmount={
+                  <SendFiatValue marketData={btcMarketData} assetSymbol={'BTC'} />
+                }
                 bottomInputOverlay={
                   <SendMaxButton
                     balance={btcBalance.balance}
