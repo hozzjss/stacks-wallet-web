@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { baseCurrencyAmountInQuote } from '@app/common/money/calculate-money';
 import { i18nFormatCurrency } from '@app/common/money/format-money';
 import { useBitcoinAssetBalance } from '@app/query/bitcoin/address/address.hooks';
@@ -9,11 +11,14 @@ export function useBtcAssetBalance() {
   const btcAddress = useCurrentBtcNativeSegwitAccountAddressIndexZero();
   const btcAssetBalance = useBitcoinAssetBalance(btcAddress);
 
-  return {
-    btcAddress,
-    btcAssetBalance,
-    btcUsdBalance: i18nFormatCurrency(
-      baseCurrencyAmountInQuote(btcAssetBalance.balance, btcMarketData)
-    ),
-  };
+  return useMemo(
+    () => ({
+      btcAddress,
+      btcAssetBalance,
+      btcUsdBalance: i18nFormatCurrency(
+        baseCurrencyAmountInQuote(btcAssetBalance.balance, btcMarketData)
+      ),
+    }),
+    [btcAddress, btcAssetBalance, btcMarketData]
+  );
 }
