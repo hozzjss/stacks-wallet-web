@@ -15,12 +15,12 @@ import { Tooltip } from '@app/components/tooltip';
 import { Caption, Text } from '@app/components/typography';
 
 import { SubBalance } from '../components/sub-balance';
-import { AssetItemCopyIcon } from './asset-copy-icon';
 
 interface CryptoCurrencyAssetItemLayoutProps extends StackProps {
   balance: Money;
   caption: string;
   icon: JSX.Element;
+  copyIcon?: JSX.Element;
   isPressable?: boolean;
   subBalance?: Money;
   title: string;
@@ -37,6 +37,7 @@ export const CryptoCurrencyAssetItemLayout = forwardRefWithAs(
       balance,
       caption,
       icon,
+      copyIcon,
       isPressable,
       subBalance,
       title,
@@ -69,7 +70,7 @@ export const CryptoCurrencyAssetItemLayout = forwardRefWithAs(
         {...rest}
         {...bind}
       >
-        <Flag img={isHovered ? AssetItemCopyIcon(hasCopied) : icon} align="middle" width="100%">
+        <Flag img={isHovered && copyIcon ? copyIcon : icon} align="middle" width="100%">
           <SpaceBetween width="100%">
             <Text>{isHovered ? truncateMiddle(address, 6) : title}</Text>
             <Tooltip

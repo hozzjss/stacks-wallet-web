@@ -8,6 +8,7 @@ import type { AllCryptoCurrencyAssetBalances } from '@shared/models/crypto-asset
 
 import { useAnalytics } from '@app/common/hooks/analytics/use-analytics';
 
+import { AssetItemCopyIcon } from './asset-copy-icon';
 import { CryptoCurrencyAssetItemLayout } from './crypto-currency-asset-item.layout';
 
 interface CryptoCurrencyAssetItemProps extends StackProps {
@@ -58,11 +59,19 @@ export const CryptoCurrencyAssetItem = forwardRefWithAs(
       onCopy();
       toast.success('Address copied!');
     }
+
+    // copy icon is needed only if asset address can be copied
+    let copyIcon;
+    if (canCopy) {
+      copyIcon = AssetItemCopyIcon({ hasCopied });
+    }
+
     return (
       <CryptoCurrencyAssetItemLayout
         balance={balance}
         caption={assetBalance.balance.symbol}
         icon={icon}
+        copyIcon={copyIcon}
         isPressable={isPressable}
         ref={ref}
         subBalance={assetSubBalance?.balance}

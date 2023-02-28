@@ -42,6 +42,7 @@ export function BalancesList({ address, ...props }: BalancesListProps) {
           usdBalance={btcUsdBalance}
           icon={<Box as={BtcIcon} />}
           address={btcAddress}
+          isPressable
           canCopy
         />
       )}
@@ -52,6 +53,7 @@ export function BalancesList({ address, ...props }: BalancesListProps) {
         assetSubBalance={stxUnachoredAssetBalance}
         address={address}
         icon={<StxAvatar {...props} />}
+        isPressable
         canCopy
       />
 

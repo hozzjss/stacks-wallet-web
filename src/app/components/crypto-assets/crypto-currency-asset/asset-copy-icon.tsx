@@ -3,7 +3,11 @@ import { FiCheck, FiCopy } from 'react-icons/fi';
 import { Box, Flex, color } from '@stacks/ui';
 import { UserAreaSelectors } from '@tests-legacy/integration/user-area.selectors';
 
-export function AssetItemCopyIcon(hasCopied: boolean) {
+interface AssetItemCopyIconProps {
+  hasCopied: boolean;
+}
+
+export function AssetItemCopyIcon({ hasCopied }: AssetItemCopyIconProps) {
   return (
     <Flex alignItems="center" justifyContent="center" size="36px">
       <Box
