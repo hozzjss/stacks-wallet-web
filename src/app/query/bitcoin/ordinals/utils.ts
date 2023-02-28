@@ -18,18 +18,19 @@ export const ordApiXyzGetInscriptionByInscriptionSchema = yup
   .object({
     // NOTE: this next key is using a space " ", uncommon as that is.
     ['content type']: yup.string().required(),
-
     content: yup.string().required(),
     preview: yup.string().required(),
     title: yup.string().required(),
   })
   .required();
 
+export type OrdApiXyzGetInscriptionByInscription = yup.InferType<
+  typeof ordApiXyzGetInscriptionByInscriptionSchema
+>;
+
 /**
  * Schema of data used from the `GET https://ordapi.xyz/output/:tx` endpoint. Additional data
  * that is not currently used by the app may be returned by this endpoint.
- *
- * See API docs, https://ordapi.xyz/
  */
 export const ordApiXyzGetTransactionOutput = yup
   .object({
